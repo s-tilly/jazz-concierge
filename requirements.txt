@@ -1,0 +1,26 @@
+# Core Agent & Google Cloud SDKs
+google-adk>=2.0.0
+google-genai>=2.0.0
+google-cloud-secret-manager>=2.20.0
+
+# Data Validation, Config & Async Persistence
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+aiosqlite>=0.20.0
+pyyaml>=6.0.1
+
+# Data Providers & User Interfaces
+spotipy>=2.24.0
+streamlit>=1.38.0
+requests>=2.31.0
+
+# Observability, Structured Logging & Tracing
+python-json-logger>=2.0.7
+opentelemetry-api>=1.25.0
+opentelemetry-sdk>=1.25.0
+opentelemetry-exporter-gcp-trace>=1.7.0
+
+# Testing & Code Quality
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
+ruff>=0.6.0

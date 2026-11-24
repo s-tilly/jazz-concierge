@@ -1,0 +1,49 @@
+# Local working documents (never push to remote)
+*.pdf
+.agents-cli-spec.md
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Python bytecode & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+build/
+dist/
+*.egg-info/
+
+# Local SQLite databases & runtime data
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Testing, linting & coverage
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Terraform / IaC local state
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

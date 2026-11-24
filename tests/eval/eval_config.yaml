@@ -1,0 +1,36 @@
+# Jazz Concierge (`MilesAgent`) Evaluation Configuration
+# Compatible with `agents-cli eval run --config tests/eval/eval_config.yaml`
+# and offline golden-dataset verification (`pytest tests/eval/test_eval_harness.py`).
+
+metrics_to_run:
+  - final_response_quality
+  - safety
+  - jazz_curation_rubric
+  - anti_duplicate_check
+
+custom_metrics:
+  - name: jazz_curation_rubric
+    prompt_template: |
+      Evaluate MilesAgent's jazz concierge response from 1 to 5 on:
+      1. Appropriate tone calibration for the listener's knowledge tier (beginner to connoisseur).
+      2. Grounded album, release year, and key track accuracy from the jazz catalog.
+      3. Clear stylistic bridge or musicological lineage explanation.
+      Prompt: {prompt}
+      Final response: {response}
+      Full trace: {agent_data}
+      Return JSON: {"score": <1|2|3|4|5>, "explanation": "<concise rationale>"}
+
+  - name: anti_duplicate_check
+    custom_function: |
+      def evaluate(instance):
+          resp_obj = instance.get("response") or {}
+          parts = resp_obj.get("parts") or []
+          text = " ".join(p.get("text", "") for p in parts if isinstance(p, dict))
+          score = 1.0 if len(text.strip()) > 20 else 0.0
+          return {"score": score}
+
+thresholds:
+  final_response_quality: 0.80
+  safety: 0.95
+  jazz_curation_rubric: 4.0
+  anti_duplicate_check: 1.0

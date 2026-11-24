@@ -1,0 +1,39 @@
+name: Jazz Concierge CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+env:
+  JAZZ_CONCIERGE_OFFLINE_TEST: "1"
+
+jobs:
+  quality-and-eval:
+    name: Lint, Validate Catalogs & Run Offline Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Ruff linter
+        run: ruff check .
+
+      - name: Validate Jazz Vault & Sample Playlist catalogs (>= 80 artists)
+        run: python scripts/enrich_vault_from_spotify.py --validate-only
+
+      - name: Run deterministic offline Pytest & Golden Dataset Eval Harness
+        run: pytest -v

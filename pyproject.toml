@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jazz-concierge"
+version = "1.0.0"
+description = "MilesAgent: Autonomous multi-agent jazz discovery, musicology, and curation system built on Google ADK-Python and Gemini 4."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk>=2.0.0",
+    "google-genai>=2.0.0",
+    "google-cloud-secret-manager>=2.20.0",
+    "pydantic>=2.7.0",
+    "python-dotenv>=1.0.1",
+    "aiosqlite>=0.20.0",
+    "spotipy>=2.24.0",
+    "streamlit>=1.38.0",
+    "python-json-logger>=2.0.7",
+    "opentelemetry-api>=1.25.0",
+    "opentelemetry-sdk>=1.25.0",
+    "opentelemetry-exporter-gcp-trace>=1.7.0",
+    "pyyaml>=6.0.1",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.6.0",
+]
+
+[project.scripts]
+jazz-concierge = "src.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "scripts", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
